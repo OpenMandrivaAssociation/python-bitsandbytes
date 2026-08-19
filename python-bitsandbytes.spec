@@ -52,7 +52,7 @@ export ROCM_PATH=%{_prefix}
 export HIP_CLANG_PATH=%{_bindir}
 export HIP_DEVICE_LIB_PATH=%{_libdir}/amdgcn/bitcode
 cat > hip-flags.cmake <<'EOF'
-set(CMAKE_HIP_FLAGS "--rocm-path=/usr --rocm-device-lib-path=/usr/lib64/amdgcn/bitcode" CACHE STRING "" FORCE)
+set(CMAKE_HIP_FLAGS "--rocm-path=%{_prefix} --rocm-device-lib-path=%{_libdir}/amdgcn/bitcode" CACHE STRING "" FORCE)
 EOF
 export CMAKE_ARGS="-C $PWD/hip-flags.cmake -DCOMPUTE_BACKEND=hip -DCMAKE_BUILD_TYPE=Release -DCMAKE_HIP_COMPILER=clang++ -DBNB_ROCM_ARCH=%{rocm_arch}"
 %else
