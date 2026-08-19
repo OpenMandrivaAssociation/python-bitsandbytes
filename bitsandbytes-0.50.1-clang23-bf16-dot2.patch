@@ -1,0 +1,23 @@
+--- bitsandbytes-0.50.1/csrc/gemm_4bit_simt.cu.orig
++++ bitsandbytes-0.50.1/csrc/gemm_4bit_simt.cu
+@@ -312,7 +312,8 @@
+             [[maybe_unused]] float b_dq[8];
+ #if BNB_HIP && BNB_HIP_BF16_VDOT2
+             // VDOT2 centroid pairs (no scale baked in); scale applied once below.
+-            using bf16x2_t = __bf16 __attribute__((ext_vector_type(2)));
++            // clang 23+ amdgcn fdot2 takes shortx2, not __bf16x2.
++            using bf16x2_t = short __attribute__((ext_vector_type(2)));
+             [[maybe_unused]] bf16x2_t b_chunk_d[4];
+ #endif
+ #pragma unroll
+@@ -332,8 +333,8 @@
+                 } else if constexpr (HIP_BF16_VDOT2) {
+                     const uint16_t hi16 = quant_map_bf16[byte >> 4];
+                     const uint16_t lo16 = quant_map_bf16[byte & 0x0f];
+-                    b_chunk_d[j] =
+-                        bf16x2_t{*reinterpret_cast<const __bf16*>(&hi16), *reinterpret_cast<const __bf16*>(&lo16)};
++                    b_chunk_d[j] = bf16x2_t{
++                        static_cast<short>(hi16), static_cast<short>(lo16)};
+ #endif
+                 } else {
+                     // fp16 on HIP uses the LDS LUT; fp16/bf16 on CUDA use the shuffle.
