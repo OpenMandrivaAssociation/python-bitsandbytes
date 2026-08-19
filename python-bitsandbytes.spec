@@ -40,9 +40,6 @@ Requires:	python%{pyver}dist(packaging)
 On x86_64 this is the HIP/ROCm backend (same gfx targets as
 python-torch). aarch64 stays on the CPU kernels. No NVIDIA CUDA toolkit.
 
-%prep -a
-patch -p1 < %{PATCH0}
-
 %build -p
 export CC=clang
 export CXX=clang++
