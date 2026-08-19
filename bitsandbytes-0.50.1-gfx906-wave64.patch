@@ -1,0 +1,20 @@
+gfx906 (Vega20) is wave64 like CDNA, but bitsandbytes only sets
+BNB_WARP_SIZE 64 for gfx908+. hipcub WARP_TRANSPOSE then uses
+BlockSize 32 and rocprim asserts BlockSize % wavefront::min_size()==0.
+
+Keep gfx906 out of IS_CDNA so the 4-bit GEMM does not take the
+CDNA v_dot2 path.
+
+--- a/csrc/common.cuh
++++ b/csrc/common.cuh
+@@ -31,8 +31,8 @@
+ // Warp size
+ 
+ #if BNB_HIP
+-#if IS_CDNA
+-#define BNB_WARP_SIZE 64 // CDNA
++#if IS_CDNA || defined(__gfx906__)
++#define BNB_WARP_SIZE 64 // CDNA + Vega20
+ #else
+ #define BNB_WARP_SIZE 32 // RDNA
+ #endif

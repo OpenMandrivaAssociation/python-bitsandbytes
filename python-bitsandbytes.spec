@@ -12,6 +12,7 @@ Group:		Development/Python
 URL:		https://github.com/bitsandbytes-foundation/bitsandbytes
 Source0:	https://github.com/bitsandbytes-foundation/bitsandbytes/archive/refs/tags/%{version}.tar.gz#/bitsandbytes-%{version}.tar.gz
 Patch0:		bitsandbytes-0.50.1-clang23-bf16-dot2.patch
+Patch1:		bitsandbytes-0.50.1-gfx906-wave64.patch
 
 BuildSystem:	python
 BuildRequires:	cmake
