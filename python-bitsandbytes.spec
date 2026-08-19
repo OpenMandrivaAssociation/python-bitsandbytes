@@ -35,13 +35,23 @@ Requires:	python%{pyver}dist(packaging)
 
 %description
 8-bit / 4-bit quantization and optimizers for PyTorch (QLoRA, LLM.int8).
-HIP/ROCm backend (same gfx targets as python-torch). Radeon works on
-x86_64 and aarch64; no NVIDIA CUDA toolkit.
+Ships both backends: CPU (no GPU / older cards) and HIP/ROCm (same gfx
+targets as python-torch, any host arch). Runtime picks the HIP library
+when torch sees a Radeon. No NVIDIA CUDA toolkit.
 
 %build -p
 export CC=clang
 export CXX=clang++
 export CMAKE_GENERATOR=Ninja
+# CMake is one backend per configure. Build CPU first so machines
+# without a current Radeon still have libbitsandbytes_cpu.so; the
+# python/scikit-build pass then adds the HIP library next to it.
+cmake -S . -B build-cpu \
+	-DCOMPUTE_BACKEND=cpu \
+	-DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_C_COMPILER=clang \
+	-DCMAKE_CXX_COMPILER=clang++
+cmake --build build-cpu --parallel
 export ROCM_PATH=%{_prefix}
 export HIP_CLANG_PATH=%{_bindir}
 export HIP_DEVICE_LIB_PATH=%{_libdir}/amdgcn/bitcode
