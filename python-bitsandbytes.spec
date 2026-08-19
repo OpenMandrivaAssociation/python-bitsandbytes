@@ -23,7 +23,7 @@ BuildRequires:	python%{pyver}dist(pip)
 BuildRequires:	python%{pyver}dist(setuptools)
 BuildRequires:	python%{pyver}dist(scikit-build-core)
 BuildRequires:	python%{pyver}dist(numpy)
-%ifarch x86_64 znver1
+%ifarch %{x86_64}
 BuildRequires:	hipcc
 BuildRequires:	cmake(hip)
 BuildRequires:	cmake(hipblas)
@@ -37,7 +37,7 @@ Requires:	python%{pyver}dist(packaging)
 
 %description
 8-bit / 4-bit quantization and optimizers for PyTorch (QLoRA, LLM.int8).
-On x86_64/znver1 this is the HIP/ROCm backend (same gfx targets as
+On x86_64 this is the HIP/ROCm backend (same gfx targets as
 python-torch). aarch64 stays on the CPU kernels. No NVIDIA CUDA toolkit.
 
 %prep -a
@@ -47,7 +47,7 @@ patch -p1 < %{PATCH0}
 export CC=clang
 export CXX=clang++
 export CMAKE_GENERATOR=Ninja
-%ifarch x86_64 znver1
+%ifarch %{x86_64}
 export ROCM_PATH=%{_prefix}
 export HIP_CLANG_PATH=%{_bindir}
 export HIP_DEVICE_LIB_PATH=%{_libdir}/amdgcn/bitcode
