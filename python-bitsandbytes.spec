@@ -28,8 +28,11 @@ BuildRequires:	hipcc
 BuildRequires:	/usr/bin/clang-offload-bundler
 BuildRequires:	cmake(hip)
 BuildRequires:	cmake(hipblas)
+BuildRequires:	cmake(rocblas)
 BuildRequires:	cmake(hiprand)
 BuildRequires:	cmake(hipblaslt)
+BuildRequires:	cmake(hipcub)
+BuildRequires:	cmake(rocprim)
 BuildRequires:	rocm-device-libs
 Requires:	python%{pyver}dist(torch)
 Requires:	python%{pyver}dist(numpy)
