@@ -5,7 +5,7 @@
 
 Name:		python-bitsandbytes
 Version:	0.50.1
-Release:	2
+Release:	3
 Summary:	k-bit optimizers and quantization
 License:	MIT
 Group:		Development/Python
@@ -24,6 +24,8 @@ BuildRequires:	python%{pyver}dist(setuptools)
 BuildRequires:	python%{pyver}dist(scikit-build-core)
 BuildRequires:	python%{pyver}dist(numpy)
 BuildRequires:	hipcc
+# clang-linker-wrapper looks this up on PATH; hipcc only Requires clang.
+BuildRequires:	/usr/bin/clang-offload-bundler
 BuildRequires:	cmake(hip)
 BuildRequires:	cmake(hipblas)
 BuildRequires:	cmake(hiprand)
