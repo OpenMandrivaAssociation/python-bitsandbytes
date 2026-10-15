@@ -5,7 +5,7 @@
 
 Name:		python-bitsandbytes
 Version:	0.50.1
-Release:	3
+Release:	4
 Summary:	k-bit optimizers and quantization
 License:	MIT
 Group:		Development/Python
@@ -18,7 +18,7 @@ BuildSystem:	python
 BuildRequires:	cmake
 BuildRequires:	ninja
 BuildRequires:	clang
-BuildRequires:	pkgconfig(python)
+BuildRequires:	pkgconfig(python3)
 BuildRequires:	python
 BuildRequires:	python%{pyver}dist(pip)
 BuildRequires:	python%{pyver}dist(setuptools)
